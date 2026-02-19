@@ -16,3 +16,63 @@ module "rg" {
     }
   }
 }
+
+module "storage" {
+  source  = "cloudnationhq/sa/azure"
+  version = "~> 3.0"
+
+  storage = {
+    name           = module.naming.storage_account.name_unique
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
+  }
+}
+
+module "appservice" {
+  source  = "cloudnationhq/plan/azure"
+  version = "~> 3.0"
+
+  plans = {
+    dev = {
+      name           = module.naming.app_service_plan.name
+      location       = module.rg.groups.demo.location
+      resource_group_name = module.rg.groups.demo.name
+      os_type        = "Windows"
+      sku_name       = "WS1"
+    }
+  }
+}
+
+module "logic" {
+  source  = "cloudnationhq/logic/azure"
+  version = "~> 1.0"
+
+  instance = {
+    # name                       = module.naming.logic_app.name
+    name                       = "demo-logic-app-wamtest-01"
+    location                   = module.rg.groups.demo.location
+    resource_group_name        = module.rg.groups.demo.name
+    app_service_plan_id        = module.appservice.plans.dev.id
+    storage_account_name       = module.storage.account.name
+    storage_account_access_key = module.storage.account.primary_access_key
+
+    app_settings = {
+      "FUNCTIONS_WORKER_RUNTIME" = "node"
+      "WEBSITE_NODE_DEFAULT_VERSION" = "~18"
+    }
+
+    identity = {
+      type = "SystemAssigned"
+    }
+
+    site_config = {
+      always_on       = true
+      http2_enabled   = true
+      min_tls_version = "1.2"
+
+      cors = {
+        allowed_origins = ["https://portal.azure.com"]
+      }
+    }
+  }
+}
