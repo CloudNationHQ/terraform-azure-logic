@@ -1,4 +1,4 @@
-output "resourceName" {
-  description = "contains all $resourceName config"
-  value       = azurerm_resource_name.resource_name
+output "instance" {
+  description = "contains all logic app standard configuration"
+  value       = azurerm_logic_app_standard.this
 }
