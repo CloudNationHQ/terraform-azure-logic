@@ -123,4 +123,5 @@ resource "azurerm_logic_app_standard" "this" {
       app_settings["WEBSITE_CONTENTAZUREFILECONNECTIONSTRING"]
     ]
   }
+
 }
