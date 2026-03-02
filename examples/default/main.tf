@@ -34,11 +34,11 @@ module "appservice" {
 
   plans = {
     dev = {
-      name           = module.naming.app_service_plan.name
-      location       = module.rg.groups.demo.location
+      name                = module.naming.app_service_plan.name
+      location            = module.rg.groups.demo.location
       resource_group_name = module.rg.groups.demo.name
-      os_type        = "Windows"
-      sku_name       = "WS1"
+      os_type             = "Windows"
+      sku_name            = "WS1"
     }
   }
 }
@@ -57,7 +57,7 @@ module "logic" {
     storage_account_access_key = module.storage.account.primary_access_key
 
     app_settings = {
-      "FUNCTIONS_WORKER_RUNTIME" = "node"
+      "FUNCTIONS_WORKER_RUNTIME"     = "node"
       "WEBSITE_NODE_DEFAULT_VERSION" = "~18"
     }
 
