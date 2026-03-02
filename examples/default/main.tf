@@ -48,8 +48,7 @@ module "logic" {
   version = "~> 1.0"
 
   instance = {
-    # name                       = module.naming.logic_app.name
-    name                       = "demo-logic-app-wamtest-01"
+    name                       = module.naming.logic_app_standard.name
     location                   = module.rg.groups.demo.location
     resource_group_name        = module.rg.groups.demo.name
     app_service_plan_id        = module.appservice.plans.dev.id
