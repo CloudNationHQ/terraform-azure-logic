@@ -4,12 +4,15 @@ This terraform module simplifies the creation and management of Azure Logic App 
 
 ## Features
 
-- Capability to create and manage Logic App Standard instances
-- Support for system-assigned and user-assigned managed identities
-- Configurable site settings including TLS version, CORS, and IP restrictions
-- Virtual network integration support
-- App settings and connection string management
-- Lifecycle management to prevent configuration drift
+Support for system-assigned and user-assigned managed identities
+
+Configurable site settings including TLS version, CORS, and IP restrictions
+
+Virtual network integration support
+
+App settings and connection string management
+
+Lifecycle management to prevent configuration drift
 
 Utilization of terratest for robust validation.
 
@@ -46,14 +49,12 @@ Type:
 
 ```hcl
 object({
-    name                       = string
-    resource_group_name        = optional(string)
-    location                   = optional(string)
-    app_service_plan_id        = string
-    storage_account_name       = string
-    storage_account_access_key = string
-
-    # optional settings
+    name                                     = string
+    resource_group_name                      = optional(string)
+    location                                 = optional(string)
+    app_service_plan_id                      = string
+    storage_account_name                     = string
+    storage_account_access_key               = string
     app_settings                             = optional(map(string))
     use_extension_bundle                     = optional(bool, true)
     bundle_version                           = optional(string, "[1.*, 2.0.0)")
@@ -69,18 +70,15 @@ object({
     virtual_network_subnet_id                = optional(string)
     vnet_content_share_enabled               = optional(bool, false)
     tags                                     = optional(map(string))
-
     connection_strings = optional(map(object({
       name  = string
       type  = string
       value = string
     })), {})
-
     identity = optional(object({
       type         = string
       identity_ids = optional(list(string))
     }))
-
     site_config = optional(object({
       always_on                        = optional(bool, false)
       app_scale_limit                  = optional(number)
@@ -100,12 +98,10 @@ object({
       use_32_bit_worker_process        = optional(bool, true)
       vnet_route_all_enabled           = optional(bool)
       websockets_enabled               = optional(bool)
-
       cors = optional(object({
         allowed_origins     = optional(list(string), [])
         support_credentials = optional(bool, false)
       }))
-
       ip_restrictions = optional(map(object({
         ip_address                = optional(string)
         service_tag               = optional(string)
@@ -121,7 +117,6 @@ object({
           x_forwarded_host  = optional(list(string))
         }))
       })), {})
-
       scm_ip_restrictions = optional(map(object({
         ip_address                = optional(string)
         service_tag               = optional(string)
