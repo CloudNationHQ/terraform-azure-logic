@@ -1,11 +1,20 @@
 resource "azurerm_logic_app_standard" "this" {
-  name                       = var.instance.name
-  resource_group_name        = coalesce(lookup(var.instance, "resource_group_name", null), var.resource_group_name)
-  location                   = coalesce(lookup(var.instance, "location", null), var.location)
-  app_service_plan_id        = var.instance.app_service_plan_id
-  storage_account_name       = var.instance.storage_account_name
-  storage_account_access_key = var.instance.storage_account_access_key
+  resource_group_name = coalesce(
+    lookup(
+      var.instance, "resource_group_name", null
+    ), var.resource_group_name
+  )
 
+  location = coalesce(
+    lookup(
+      var.instance, "location", null
+    ), var.location
+  )
+
+  name                                     = var.instance.name
+  app_service_plan_id                      = var.instance.app_service_plan_id
+  storage_account_name                     = var.instance.storage_account_name
+  storage_account_access_key               = var.instance.storage_account_access_key
   app_settings                             = var.instance.app_settings
   use_extension_bundle                     = var.instance.use_extension_bundle
   bundle_version                           = var.instance.bundle_version
@@ -20,10 +29,16 @@ resource "azurerm_logic_app_standard" "this" {
   version                                  = var.instance.version
   virtual_network_subnet_id                = var.instance.virtual_network_subnet_id
   vnet_content_share_enabled               = var.instance.vnet_content_share_enabled
-  tags                                     = coalesce(var.instance.tags, var.tags)
+
+  tags = coalesce(
+    var.instance.tags, var.tags
+  )
 
   dynamic "connection_string" {
-    for_each = try(var.instance.connection_strings, {})
+    for_each = try(
+      var.instance.connection_strings, {}
+    )
+
     content {
       name  = connection_string.value.name
       type  = connection_string.value.type
@@ -33,6 +48,7 @@ resource "azurerm_logic_app_standard" "this" {
 
   dynamic "identity" {
     for_each = lookup(var.instance, "identity", null) != null ? [var.instance.identity] : []
+
     content {
       type         = identity.value.type
       identity_ids = try(identity.value.identity_ids, null)
@@ -41,6 +57,7 @@ resource "azurerm_logic_app_standard" "this" {
 
   dynamic "site_config" {
     for_each = lookup(var.instance, "site_config", null) != null ? [var.instance.site_config] : []
+
     content {
       always_on                        = site_config.value.always_on
       app_scale_limit                  = site_config.value.app_scale_limit
@@ -63,6 +80,7 @@ resource "azurerm_logic_app_standard" "this" {
 
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", null) != null ? [site_config.value.cors] : []
+
         content {
           allowed_origins     = cors.value.allowed_origins
           support_credentials = cors.value.support_credentials
@@ -70,7 +88,10 @@ resource "azurerm_logic_app_standard" "this" {
       }
 
       dynamic "ip_restriction" {
-        for_each = try(site_config.value.ip_restrictions, {})
+        for_each = try(
+          site_config.value.ip_restrictions, {}
+        )
+
         content {
           ip_address                = ip_restriction.value.ip_address
           service_tag               = ip_restriction.value.service_tag
@@ -82,6 +103,7 @@ resource "azurerm_logic_app_standard" "this" {
 
           dynamic "headers" {
             for_each = lookup(ip_restriction.value, "headers", null) != null ? [ip_restriction.value.headers] : []
+
             content {
               x_azure_fdid      = headers.value.x_azure_fdid
               x_fd_health_probe = headers.value.x_fd_health_probe
@@ -93,7 +115,10 @@ resource "azurerm_logic_app_standard" "this" {
       }
 
       dynamic "scm_ip_restriction" {
-        for_each = try(site_config.value.scm_ip_restrictions, {})
+        for_each = try(
+          site_config.value.scm_ip_restrictions, {}
+        )
+
         content {
           ip_address                = scm_ip_restriction.value.ip_address
           service_tag               = scm_ip_restriction.value.service_tag
@@ -105,6 +130,7 @@ resource "azurerm_logic_app_standard" "this" {
 
           dynamic "headers" {
             for_each = lookup(scm_ip_restriction.value, "headers", null) != null ? [scm_ip_restriction.value.headers] : []
+
             content {
               x_azure_fdid      = headers.value.x_azure_fdid
               x_fd_health_probe = headers.value.x_fd_health_probe
@@ -116,7 +142,6 @@ resource "azurerm_logic_app_standard" "this" {
       }
     }
   }
-
   lifecycle {
     ignore_changes = [
       app_settings["WEBSITE_CONTENTSHARE"],
