@@ -1,14 +1,12 @@
 variable "instance" {
   description = "describes logic app standard configuration"
   type = object({
-    name                       = string
-    resource_group_name        = optional(string)
-    location                   = optional(string)
-    app_service_plan_id        = string
-    storage_account_name       = string
-    storage_account_access_key = string
-
-    # optional settings
+    name                                     = string
+    resource_group_name                      = optional(string)
+    location                                 = optional(string)
+    app_service_plan_id                      = string
+    storage_account_name                     = string
+    storage_account_access_key               = string
     app_settings                             = optional(map(string))
     use_extension_bundle                     = optional(bool, true)
     bundle_version                           = optional(string, "[1.*, 2.0.0)")
@@ -24,18 +22,15 @@ variable "instance" {
     virtual_network_subnet_id                = optional(string)
     vnet_content_share_enabled               = optional(bool, false)
     tags                                     = optional(map(string))
-
     connection_strings = optional(map(object({
       name  = string
       type  = string
       value = string
     })), {})
-
     identity = optional(object({
       type         = string
       identity_ids = optional(list(string))
     }))
-
     site_config = optional(object({
       always_on                        = optional(bool, false)
       app_scale_limit                  = optional(number)
@@ -55,12 +50,10 @@ variable "instance" {
       use_32_bit_worker_process        = optional(bool, true)
       vnet_route_all_enabled           = optional(bool)
       websockets_enabled               = optional(bool)
-
       cors = optional(object({
         allowed_origins     = optional(list(string), [])
         support_credentials = optional(bool, false)
       }))
-
       ip_restrictions = optional(map(object({
         ip_address                = optional(string)
         service_tag               = optional(string)
@@ -76,7 +69,6 @@ variable "instance" {
           x_forwarded_host  = optional(list(string))
         }))
       })), {})
-
       scm_ip_restrictions = optional(map(object({
         ip_address                = optional(string)
         service_tag               = optional(string)
