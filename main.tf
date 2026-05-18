@@ -59,24 +59,26 @@ resource "azurerm_logic_app_standard" "this" {
     for_each = lookup(var.instance, "site_config", null) != null ? [var.instance.site_config] : []
 
     content {
-      always_on                        = site_config.value.always_on
-      app_scale_limit                  = site_config.value.app_scale_limit
-      auto_swap_slot_name              = site_config.value.auto_swap_slot_name
-      dotnet_framework_version         = site_config.value.dotnet_framework_version
-      elastic_instance_minimum         = site_config.value.elastic_instance_minimum
-      ftps_state                       = site_config.value.ftps_state
-      health_check_path                = site_config.value.health_check_path
-      http2_enabled                    = site_config.value.http2_enabled
-      linux_fx_version                 = site_config.value.linux_fx_version
-      min_tls_version                  = site_config.value.min_tls_version
-      pre_warmed_instance_count        = site_config.value.pre_warmed_instance_count
-      runtime_scale_monitoring_enabled = site_config.value.runtime_scale_monitoring_enabled
-      scm_min_tls_version              = site_config.value.scm_min_tls_version
-      scm_type                         = site_config.value.scm_type
-      scm_use_main_ip_restriction      = site_config.value.scm_use_main_ip_restriction
-      use_32_bit_worker_process        = site_config.value.use_32_bit_worker_process
-      vnet_route_all_enabled           = site_config.value.vnet_route_all_enabled
-      websockets_enabled               = site_config.value.websockets_enabled
+      always_on                         = site_config.value.always_on
+      app_scale_limit                   = site_config.value.app_scale_limit
+      auto_swap_slot_name               = site_config.value.auto_swap_slot_name
+      dotnet_framework_version          = site_config.value.dotnet_framework_version
+      elastic_instance_minimum          = site_config.value.elastic_instance_minimum
+      ftps_state                        = site_config.value.ftps_state
+      health_check_path                 = site_config.value.health_check_path
+      http2_enabled                     = site_config.value.http2_enabled
+      ip_restriction_default_action     = site_config.value.ip_restriction_default_action
+      linux_fx_version                  = site_config.value.linux_fx_version
+      min_tls_version                   = site_config.value.min_tls_version
+      pre_warmed_instance_count         = site_config.value.pre_warmed_instance_count
+      runtime_scale_monitoring_enabled  = site_config.value.runtime_scale_monitoring_enabled
+      scm_ip_restriction_default_action = site_config.value.scm_ip_restriction_default_action
+      scm_min_tls_version               = site_config.value.scm_min_tls_version
+      scm_type                          = site_config.value.scm_type
+      scm_use_main_ip_restriction       = site_config.value.scm_use_main_ip_restriction
+      use_32_bit_worker_process         = site_config.value.use_32_bit_worker_process
+      vnet_route_all_enabled            = site_config.value.vnet_route_all_enabled
+      websockets_enabled                = site_config.value.websockets_enabled
 
       dynamic "cors" {
         for_each = lookup(site_config.value, "cors", null) != null ? [site_config.value.cors] : []
