@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/CloudNationHQ/terraform-azure-logic/compare/v1.1.0...v1.2.0) (2026-05-19)
+
+
+### Features
+
+* add ip_restriction_default_action and scm_ip_restriction_default_action to site_config ([#13](https://github.com/CloudNationHQ/terraform-azure-logic/issues/13)) ([bac8db3](https://github.com/CloudNationHQ/terraform-azure-logic/commit/bac8db3117acab225ad78f64657ff55d4d772fc7))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#12](https://github.com/CloudNationHQ/terraform-azure-logic/issues/12)) ([1cae322](https://github.com/CloudNationHQ/terraform-azure-logic/commit/1cae3223032c813ebc7981659d7db0811eb4d4e6))
+
 ## [1.1.0](https://github.com/CloudNationHQ/terraform-azure-logic/compare/v1.0.0...v1.1.0) (2026-03-03)
 
 
