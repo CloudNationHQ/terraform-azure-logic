@@ -15,6 +15,7 @@ variable "instance" {
     enabled                                  = optional(bool, true)
     ftp_publish_basic_authentication_enabled = optional(bool, true)
     https_only                               = optional(bool, false)
+    key_vault_reference_identity_id          = optional(string)
     public_network_access                    = optional(string, "Enabled")
     scm_publish_basic_authentication_enabled = optional(bool, true)
     storage_account_share_name               = optional(string)
