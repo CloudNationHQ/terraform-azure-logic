@@ -23,6 +23,7 @@ resource "azurerm_logic_app_standard" "this" {
   enabled                                  = var.instance.enabled
   ftp_publish_basic_authentication_enabled = var.instance.ftp_publish_basic_authentication_enabled
   https_only                               = var.instance.https_only
+  key_vault_reference_identity_id          = var.instance.key_vault_reference_identity_id
   public_network_access                    = var.instance.public_network_access
   scm_publish_basic_authentication_enabled = var.instance.scm_publish_basic_authentication_enabled
   storage_account_share_name               = var.instance.storage_account_share_name
