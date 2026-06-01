@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/CloudNationHQ/terraform-azure-logic/compare/v1.2.0...v1.3.0) (2026-05-31)
+
+
+### Features
+
+* add key_vault_reference_identity_id to logic_app_standard ([#25](https://github.com/CloudNationHQ/terraform-azure-logic/issues/25)) ([29a657e](https://github.com/CloudNationHQ/terraform-azure-logic/commit/29a657ee9893d287b86fe5ff1983c7de602e45a8))
+
 ## [1.2.0](https://github.com/CloudNationHQ/terraform-azure-logic/compare/v1.1.0...v1.2.0) (2026-05-19)
 
 
