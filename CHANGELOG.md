@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.0](https://github.com/CloudNationHQ/terraform-azure-logic/compare/v1.3.0...v2.0.0) (2026-09-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* this change causes recreates
+
+### Features
+
+* azurerm provider 5 upgrade ([#30](https://github.com/CloudNationHQ/terraform-azure-logic/issues/30)) ([0ea9daf](https://github.com/CloudNationHQ/terraform-azure-logic/commit/0ea9daf7d4fe28723e4e7b63b2140bb7c39514be))
+* **deps:** bump golang.org/x/crypto from 0.45.0 to 0.52.0 in /tests ([#27](https://github.com/CloudNationHQ/terraform-azure-logic/issues/27)) ([bdaff41](https://github.com/CloudNationHQ/terraform-azure-logic/commit/bdaff410162c44b319c0d52ee63166b468312213))
+
 ## [1.3.0](https://github.com/CloudNationHQ/terraform-azure-logic/compare/v1.2.0...v1.3.0) (2026-05-31)
 
 
