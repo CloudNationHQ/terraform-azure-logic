@@ -1,44 +1,39 @@
 resource "azurerm_logic_app_standard" "this" {
   resource_group_name = coalesce(
-    lookup(
-      var.instance, "resource_group_name", null
-    ), var.resource_group_name
+    var.logic_app.resource_group_name, var.resource_group_name
   )
 
   location = coalesce(
-    lookup(
-      var.instance, "location", null
-    ), var.location
+    var.logic_app.location, var.location
   )
 
-  name                                     = var.instance.name
-  app_service_plan_id                      = var.instance.app_service_plan_id
-  storage_account_name                     = var.instance.storage_account_name
-  storage_account_access_key               = var.instance.storage_account_access_key
-  app_settings                             = var.instance.app_settings
-  use_extension_bundle                     = var.instance.use_extension_bundle
-  bundle_version                           = var.instance.bundle_version
-  client_affinity_enabled                  = var.instance.client_affinity_enabled
-  client_certificate_mode                  = var.instance.client_certificate_mode
-  enabled                                  = var.instance.enabled
-  ftp_publish_basic_authentication_enabled = var.instance.ftp_publish_basic_authentication_enabled
-  https_only                               = var.instance.https_only
-  key_vault_reference_identity_id          = var.instance.key_vault_reference_identity_id
-  public_network_access                    = var.instance.public_network_access
-  scm_publish_basic_authentication_enabled = var.instance.scm_publish_basic_authentication_enabled
-  storage_account_share_name               = var.instance.storage_account_share_name
-  version                                  = var.instance.version
-  virtual_network_subnet_id                = var.instance.virtual_network_subnet_id
-  vnet_content_share_enabled               = var.instance.vnet_content_share_enabled
+  name                                     = var.logic_app.name
+  app_service_plan_id                      = var.logic_app.app_service_plan_id
+  storage_account_name                     = var.logic_app.storage_account_name
+  storage_account_access_key               = var.logic_app.storage_account_access_key
+  storage_key_vault_secret_id              = var.logic_app.storage_key_vault_secret_id
+  app_settings                             = var.logic_app.app_settings
+  use_extension_bundle                     = var.logic_app.use_extension_bundle
+  bundle_version                           = var.logic_app.bundle_version
+  client_affinity_enabled                  = var.logic_app.client_affinity_enabled
+  client_certificate_mode                  = var.logic_app.client_certificate_mode
+  enabled                                  = var.logic_app.enabled
+  ftp_publish_basic_authentication_enabled = var.logic_app.ftp_publish_basic_authentication_enabled
+  https_only                               = var.logic_app.https_only
+  key_vault_reference_identity_id          = var.logic_app.key_vault_reference_identity_id
+  public_network_access                    = var.logic_app.public_network_access
+  scm_publish_basic_authentication_enabled = var.logic_app.scm_publish_basic_authentication_enabled
+  storage_account_share_name               = var.logic_app.storage_account_share_name
+  version                                  = var.logic_app.version
+  virtual_network_subnet_id                = var.logic_app.virtual_network_subnet_id
+  vnet_content_share_enabled               = var.logic_app.vnet_content_share_enabled
 
   tags = coalesce(
-    var.instance.tags, var.tags
+    var.logic_app.tags, var.tags
   )
 
   dynamic "connection_string" {
-    for_each = try(
-      var.instance.connection_strings, {}
-    )
+    for_each = var.logic_app.connection_strings
 
     content {
       name  = connection_string.value.name
@@ -48,16 +43,16 @@ resource "azurerm_logic_app_standard" "this" {
   }
 
   dynamic "identity" {
-    for_each = lookup(var.instance, "identity", null) != null ? [var.instance.identity] : []
+    for_each = var.logic_app.identity != null ? { "this" = var.logic_app.identity } : {}
 
     content {
       type         = identity.value.type
-      identity_ids = try(identity.value.identity_ids, null)
+      identity_ids = identity.value.identity_ids
     }
   }
 
   dynamic "site_config" {
-    for_each = lookup(var.instance, "site_config", null) != null ? [var.instance.site_config] : []
+    for_each = var.logic_app.site_config != null ? { "this" = var.logic_app.site_config } : {}
 
     content {
       always_on                         = site_config.value.always_on
@@ -82,7 +77,7 @@ resource "azurerm_logic_app_standard" "this" {
       websockets_enabled                = site_config.value.websockets_enabled
 
       dynamic "cors" {
-        for_each = lookup(site_config.value, "cors", null) != null ? [site_config.value.cors] : []
+        for_each = site_config.value.cors != null ? { "this" = site_config.value.cors } : {}
 
         content {
           allowed_origins     = cors.value.allowed_origins
@@ -91,9 +86,7 @@ resource "azurerm_logic_app_standard" "this" {
       }
 
       dynamic "ip_restriction" {
-        for_each = try(
-          site_config.value.ip_restrictions, {}
-        )
+        for_each = site_config.value.ip_restrictions
 
         content {
           ip_address                = ip_restriction.value.ip_address
@@ -105,7 +98,7 @@ resource "azurerm_logic_app_standard" "this" {
           description               = ip_restriction.value.description
 
           dynamic "headers" {
-            for_each = lookup(ip_restriction.value, "headers", null) != null ? [ip_restriction.value.headers] : []
+            for_each = ip_restriction.value.headers != null ? { "this" = ip_restriction.value.headers } : {}
 
             content {
               x_azure_fdid      = headers.value.x_azure_fdid
@@ -118,9 +111,7 @@ resource "azurerm_logic_app_standard" "this" {
       }
 
       dynamic "scm_ip_restriction" {
-        for_each = try(
-          site_config.value.scm_ip_restrictions, {}
-        )
+        for_each = site_config.value.scm_ip_restrictions
 
         content {
           ip_address                = scm_ip_restriction.value.ip_address
@@ -132,7 +123,7 @@ resource "azurerm_logic_app_standard" "this" {
           description               = scm_ip_restriction.value.description
 
           dynamic "headers" {
-            for_each = lookup(scm_ip_restriction.value, "headers", null) != null ? [scm_ip_restriction.value.headers] : []
+            for_each = scm_ip_restriction.value.headers != null ? { "this" = scm_ip_restriction.value.headers } : {}
 
             content {
               x_azure_fdid      = headers.value.x_azure_fdid
